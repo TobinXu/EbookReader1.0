@@ -69,13 +69,14 @@
           this.setDefaultTheme(defaultTheme)
           saveTheme(this.fileName, defaultTheme)
         }
+        this.setDefaultTheme(defaultTheme)
         this.themeList.forEach(theme => {
           this.rendition.themes.register(theme.name, theme.style)
         })
         this.rendition.themes.select(defaultTheme)
       },
       initEpub() {
-        const url = 'http://127.0.0.1:9001/epub/' +
+        const url = process.env.VUE_APP_RES_URL + '/epub/' +
           this.fileName + '.epub'
           this.book = new Epub(url)
         this.setCurrentBook(this.book)
@@ -88,6 +89,7 @@
           this.initTheme()
           this.initFontSize()
           this.initFontFamily()
+          this.initGlobalStyle()
       })
         this.rendition.on('touchstart', event => {
           this.touchStartX = event.changedTouches[0].clientX
