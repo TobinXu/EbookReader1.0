@@ -5,11 +5,11 @@ const actions = {
   setDefaultFontFamily: ({ commit }, font) => {
     return commit('SET_DEFAULT_FONT_FAMILY', font)
   },
-  setDefaultFontSize: ({ commit }, fontSize) => {
-    return commit('SET_DEFAULT_FONT_SIZE', fontSize)
+  setDefaultFontSize: ({ commit }, FontSize) => {
+    return commit('SET_DEFAULT_FONT_SIZE', FontSize)
   },
-  setSettingVisible: ({ commit }, visible) => {
-    return commit('SET_SETTING_VISIBLE', visible)
+  setSettingVisible: ({ commit }, settingVisible) => {
+    return commit('SET_SETTING_VISIBLE', settingVisible)
   },
   setMenuVisible: ({ commit }, visible) => {
     return commit('SET_MENU_VISIBLE', visible)
@@ -32,8 +32,8 @@ const actions = {
   setIsPaginating: ({ commit }, isPaginating) => {
     return commit('SET_IS_PAGINATING', isPaginating)
   },
-  setCurrentBook: ({ commit }, book) => {
-    return commit('SET_CURRENT_BOOK', book)
+  setCurrentBook: ({ commit }, currentBook) => {
+    return commit('SET_CURRENT_BOOK', currentBook)
   },
   setNavigation: ({ commit }, navigation) => {
     return commit('SET_NAVIGATION', navigation)

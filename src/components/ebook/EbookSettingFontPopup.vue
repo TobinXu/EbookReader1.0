@@ -1,22 +1,22 @@
 <template>
   <transition name="popup-slide-up">
-  <div class="ebook-popup-list" v-show="fontFamilyVisible"></div>
+  <div class="ebook-popup-list" v-show="fontFamilyVisible">
     <div class="ebook-popup-title">
       <div class="ebook-popup-title-icon" @click="hide">
         <span class="icon-down2"></span>
       </div>
-      <span class="ebook-popup-title-text">选择字体</span>
+      <span class="ebook-popup-title-text">{{$t(`book.selectFont`)}}</span>
     </div>
-    <span class="ebook-popup-title-text">{{$t(`book.selectFont`)}}</span>
-  <div class="ebook-popup-list-wrapper">
-    <div class="ebook-pop-item" v-for="(item,index) in fontFamilyList"
-:key="index" @click="setFontFamily(item.font)">
-      <div class="ebook-popup-item-text"
+      <div class="ebook-popup-list-wrapper">
+         <div class="ebook-pop-item" v-for="(item,index) in fontFamilyList"
+              :key="index" @click="setFontFamily(item.font)">
+           <div class="ebook-popup-item-text"
            :class="{'selected':isSelected(item)}">{{item.font}}</div>
-      <div class="ebook-popup-item-check" v-if="isSelected(item)">
-        <span class="icon-check"></span>
+          <div class="ebook-popup-item-check" v-if="isSelected(item)">
+            <span class="icon-check"></span>
+          </div>
+         </div>
       </div>
-    </div>
   </div>
   </transition>
 </template>

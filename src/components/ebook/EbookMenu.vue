@@ -2,7 +2,7 @@
   <div>
   <transition name="slide-up">
     <div class="menu-wrapper" :class="{'hide-box-shadow':!menuVisible ||
-    settingVisible >= 0 }" v-show="menuVisible">
+        settingVisible >= 0 }" v-show="menuVisible">
       <div class="icon-wrapper">
         <span class="icon-menu" @click="showSetting(3)"></span>
       </div>
@@ -13,13 +13,14 @@
         <span class="icon-bright" @click="showSetting(1)"></span>
       </div>
       <div class="icon-wrapper">
-        <span class="icon-A" @click="showSetting(0)">A</span>
+        <span class="icon-A" @click="showSetting(0)"></span>
       </div>
     </div>
   </transition>
   <ebook-setting-font></ebook-setting-font>
     <ebook-setting-font-popup></ebook-setting-font-popup>
     <ebook-setting-theme></ebook-setting-theme>
+    <ebook-setting-progress></ebook-setting-progress>
   </div>
 </template>
 
@@ -28,13 +29,15 @@
   import EbookSettingFont from './EbookSettingFont'
   import { ebookMixin } from '../../utils/mixin'
   import EbookSettingTheme from './EbookSettingTheme'
+  import EbookSettingProgress from './EbookSettingProgress'
 
   export default {
     mixins: [ebookMixin],
     components: {
       EbookSettingFont,
       EbookSettingFontPopup,
-      EbookSettingTheme
+      EbookSettingTheme,
+      EbookSettingProgress
     },
     methods: {
       showSetting(key) {
@@ -64,10 +67,10 @@
       flex: 1;
       @include center;
       .icon-progress {
-        font-size: px2rem(28);
+        font-size: px2rem(24);
       }
       .icon-bright {
-        font-size: px2rem(24);
+        font-size: px2rem(22);
       }
     }
   }

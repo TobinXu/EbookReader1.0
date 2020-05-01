@@ -2,7 +2,7 @@
     <div class="ebook">
       <ebook-title></ebook-title>
       <ebook-reader></ebook-reader>
-      <ebook-menu>k</ebook-menu>
+      <ebook-menu></ebook-menu>
     </div>
 </template>
 
@@ -10,13 +10,37 @@
   import EbookReader from '../../components/ebook/EbookReader'
   import EbookTitle from '../../components/ebook/EbookTitle'
   import EbookMenu from '../../components/ebook/EbookMenu'
+  import { getReadTime, saveReadTime } from '../../utils/localStorage'
+  import { ebookMixin } from '../../utils/mixin'
 
   export default {
+    mixins: [ebookMixin],
     components: {
       EbookReader,
       EbookMenu,
       EbookTitle
-
+    },
+    methods: {
+      startLoopReadTime() {
+        let readTime = getReadTime(this.fileName)
+        if (!readTime) {
+          readTime = 0
+        }
+        this.task = setInterval(() => {
+          readTime++
+          if (readTime % 30 ===0) {
+            saveReadTime(this.fileName, readTime)
+          }
+        }, 1000)
+      }
+    },
+    mounted() {
+      this.startLoopReadTime()
+    },
+    beforeDestory() {
+      if (this.task) {
+        clearInterval(this.task)
+      }
     }
   }
 </script>

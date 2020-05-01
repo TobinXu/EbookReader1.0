@@ -13,38 +13,44 @@
     getFontSize,
     saveFontSize,
     getTheme,
-    saveTheme
+    saveTheme,
+    getLocation
   } from '../../utils/localStorage'
+  import { addCss } from '../../utils/book'
 
   global.ePub = Epub
   export default {
     mixins: [ebookMixin],
     methods: {
-      prevPage() {
+      prevPage () {
         if (this.rendition) {
-          this.rendition.prev()
+          this.rendition.prev().then(() => {
+            this.refreshLocation()
+          })
           this.hideTitleAndMenu()
         }
       },
-      nextPage() {
+      nextPage () {
         if (this.rendition) {
-          this.rendition.next()
+          this.rendition.next().then(() => {
+            this.refreshLocation()
+          })
           this.hideTitleAndMenu()
         }
       },
-      toggleTitleAndMemu() {
+      toggleTitleAndMemu () {
         if (this.menuVisible) {
           this.setSettingVisible(-1)
           this.setFontFamilyVisible(false)
         }
         this.setMenuVisible(!this.menuVisible)
       },
-      hideTitleAndMenu() {
+      hideTitleAndMenu () {
         this.setMenuVisible(false)
         this.setSettingVisible(-1)
         this.setFontFamilyVisible(false)
       },
-      initFontSize() {
+      initFontSize () {
         let fontSize = getFontSize(this.fileName)
         if (!fontSize) {
           saveFontSize(this.fileName, this.defaultFontFamily)
@@ -53,7 +59,7 @@
           this.setDefaultFontSize(fontSize)
         }
       },
-      initFontFamily() {
+      initFontFamily () {
         let font = getFontFamily(this.fileName)
         if (!font) {
           saveFontFamily(this.fileName, this.defaultFontFamily)
@@ -62,11 +68,10 @@
           this.setDefaultFontFamily(font)
         }
       },
-      initTheme() {
+      initTheme () {
         let defaultTheme = getTheme(this.fileName)
         if (!defaultTheme) {
           defaultTheme = this.themeList[0].name
-          this.setDefaultTheme(defaultTheme)
           saveTheme(this.fileName, defaultTheme)
         }
         this.setDefaultTheme(defaultTheme)
@@ -75,22 +80,30 @@
         })
         this.rendition.themes.select(defaultTheme)
       },
-      initEpub() {
-        const url = process.env.VUE_APP_RES_URL + '/epub/' +
-          this.fileName + '.epub'
-          this.book = new Epub(url)
-        this.setCurrentBook(this.book)
-          this.rendition =this.book.renderTo('read', {
-                  width: innerWidth,
-                  height: innerHeight,
-                  method: 'default'
-                })
-        this.rendition.display().then(() => {
+      initRendition () {
+        this.rendition = this.book.renderTo('read', {
+          width: innerWidth,
+          height: innerHeight,
+          method: 'default'
+        })
+        const location = getLocation(this.fileName)
+        this.display(location, () => {
           this.initTheme()
           this.initFontSize()
           this.initFontFamily()
           this.initGlobalStyle()
-      })
+        })
+        this.rendition.hooks.content.register(contents => {
+          Promise.all([
+            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/daysOne.css`),
+            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/cabin.css`),
+            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/montserrat.css`),
+            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/tangerine.css`)
+          ]).then(() => {
+          })
+        })
+      },
+      initGesture () {
         this.rendition.on('touchstart', event => {
           this.touchStartX = event.changedTouches[0].clientX
           this.touchStartTime = event.timeStamp
@@ -101,25 +114,33 @@
           const time = event.timeStamp - this.touchStartTime
           if (time < 500 && offSetX > 40) {
             this.prevPage()
-          } else if (time < 500 && offSetX <-40) {
+          } else if (time < 500 && offSetX < -40) {
             this.nextPage()
           } else {
             this.toggleTitleAndMemu()
           }
           event.stopPropagation()
         })
-        this.rendition.hooks.content.register(contents => {
-          Promise.all([
-            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/daysOne.css`),
-            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/cabin.css`),
-            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/montserrat.css`),
-            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/tangerine.css`)
-          ]).then(() => {})
+      },
+      initEpub () {
+        const url = process.env.VUE_APP_RES_URL + '/epub/' +
+          this.fileName + '.epub'
+        this.book = new Epub(url)
+        this.setCurrentBook(this.book)
+        this.initRendition()
+        this.initGesture()
+        this.initTheme()
+        this.initGlobalStyle()
+        this.book.ready.then(() => {
+          return this.book.locations.generate(750 * (window.innerWidth / 375) * (getFontSize(this.fileName) / 16)).then(locations => {
+            this.setBookAvailable(true)
+            this.refreshLocation()
+          })
         })
       }
     },
     mounted() {
-      this.setFileName('setFileName', this.$route.params.fileName.split('|').join('/'))
+      this.setFileName(this.$route.params.fileName.split('|').join('/'))
         .then(() => {
           this.initEpub()
       })
@@ -129,5 +150,18 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
   @import "../../assets/styles/global";
+  .ebook-reader {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    .ebook-reader-mask {
+      position: absolute;
+      z-index: 150;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
 
 </style>

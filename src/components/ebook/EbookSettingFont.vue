@@ -1,7 +1,7 @@
 <template>
   <transition name="slide-up">
   <div class="setting-wrapper" v-show="menuVisible &&
-settingVisible == 0">
+      settingVisible === 0">
     <div class="setting-font-size">
       <div class="preview" :style="{fontSize: fontSizeList[0].fontSize + 'px'}">A</div>
       <div class="select">
@@ -20,7 +20,6 @@ settingVisible == 0">
     <div class="setting-font-family" @click="showFontFamilyPopup">
       <div class="setting-font-family-text-wrapper">
         <span class="setting-font-family-text">{{defaultFontFamily}}</span>
-
       </div>
       <div class="setting-font-icon-wrapper">
         <span class="icon-forward"></span>
@@ -141,4 +140,4 @@ settingVisible == 0">
         @include center;
       }
     }
-</div>
+</style>

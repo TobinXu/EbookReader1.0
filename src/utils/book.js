@@ -81,8 +81,8 @@ export function removeCss (href) {
 }
 
 export function removeAllCss () {
-  removeAllCss(`${process.env.VUE_APP_RES_URL}/theme/theme_default.css`)
-  removeAllCss(`${process.env.VUE_APP_RES_URL}/theme/theme_eye.css`)
-  removeAllCss(`${process.env.VUE_APP_RES_URL}/theme/theme_gold.css`)
-  removeAllCss(`${process.env.VUE_APP_RES_URL}/theme/theme_night.css`)
+  removeCss(`${process.env.VUE_APP_RES_URL}/theme/theme_default.css`)
+  removeCss(`${process.env.VUE_APP_RES_URL}/theme/theme_eye.css`)
+  removeCss(`${process.env.VUE_APP_RES_URL}/theme/theme_gold.css`)
+  removeCss(`${process.env.VUE_APP_RES_URL}/theme/theme_night.css`)
 }

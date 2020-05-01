@@ -59,10 +59,6 @@ html, body {
   height: 100%;
   overflow: hidden;//超出宽高 hidden掉
   user-select: none;//不允许用户做长按操作
-}
-body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-html, body {
   font-family: 'PingFangSC-Light', 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', 'Arial', 'sans-serif';
 }

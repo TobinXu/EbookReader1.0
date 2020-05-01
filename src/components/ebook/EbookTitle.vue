@@ -38,15 +38,16 @@
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 200;
+  z-index: 101;
   display: flex;
   width: 100%;
   height: px2rem(48);
   background: white;
   box-shadow: 0 px2rem(8) px2rem(8) rgba(0, 0, 0, .15);
+  font-size: px2rem(20);
   .left {
     flex: 0 0 px2rem(60);
-    @include left;
+    @include center;
     margin-left: px2rem(15);
   }
   .right {
@@ -59,7 +60,7 @@
       .icon-shelf {
         font-size: px2rem(22);
       }
-      .icon-cart {
+      .icon-cart{
         font-size: px2rem(22);
       }
     }
