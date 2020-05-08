@@ -1,5 +1,5 @@
 export function px2rem (px) {
-  const ratio = 375 / 10
+  const ratio = 160 / 10
   return px / ratio
 }
 
