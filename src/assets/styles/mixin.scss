@@ -1,4 +1,4 @@
-$ratio: 160 / 10;
+$ratio: 375 / 10;
 @function px2rem($px) {
   @return ($px / $ratio) + rem;
 }
