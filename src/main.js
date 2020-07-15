@@ -5,8 +5,9 @@ import store from './store/index'
 import i18n from './lang'
 import './assets/styles/icon.css'
 import './assets/styles/global.scss'
+import VueLazyLoad from 'vue-lazyload'
 Vue.config.productionTip = false
-
+Vue.use(VueLazyLoad)
 new Vue({
   router,
   store,
