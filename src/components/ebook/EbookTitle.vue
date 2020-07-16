@@ -26,7 +26,7 @@
     mixins: [ebookMixin],
     methods: {
       back() {
-        this.$router.go(-1)
+        this.$router.go(-1) // 常用的一些vue 路由方法 比如 push 比如 back 以及go
       }
     }
   }
