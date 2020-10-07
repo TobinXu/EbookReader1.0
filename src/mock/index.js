@@ -8,4 +8,3 @@ Mock.mock(/\/book\/home/, 'get', home)
 Mock.mock(/\/book\/shelf/, 'get', shelf)
 Mock.mock(/\/book\/list/, 'get', list)
 Mock.mock(/\/book\/flatList/, 'get', flatList)
-

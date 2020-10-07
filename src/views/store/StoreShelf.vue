@@ -12,6 +12,7 @@
   import { storeShelfMixin } from '../../utils/mixin'
   import Scroll from '../../components/common/Scroll'
   import ShelfSearch from '../../components/shelf/ShelfSearch'
+  import { shelf } from '../../api/store'
 
   export default {
      mixins: [storeShelfMixin],
@@ -19,7 +20,19 @@
       ShelfTitle,
        Scroll,
        ShelfSearch
-  }
+  },
+    methods: {
+       getShelfList() {
+        shelf().then(response => {
+          if (response.status === 200 && response.data && response.data.bookList) {
+            this.setShelfList(response.data.bookList)
+          }
+})
+       }
+    },
+    mounted() {
+       this.getShelfList()
+    }
       }
 </script>
 

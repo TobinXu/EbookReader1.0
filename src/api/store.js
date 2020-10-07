@@ -1,5 +1,12 @@
 import axios from 'axios'
 
+export function shelf() {
+  return axios({
+    url: `${process.env.VUE_APP_BASE_URL}/book/shelf`,
+    method: 'get'
+  })
+}
+
 export function home() {
   return axios({
     url: `${process.env.VUE_APP_BASE_URL}/book/home`,
