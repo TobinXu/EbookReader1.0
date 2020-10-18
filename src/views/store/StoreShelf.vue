@@ -1,8 +1,11 @@
 <template>
     <div class="store-shelf">
       <shelf-title></shelf-title>
-      <scroll class="store-shelf-scroll-wrapper">
+      <scroll class="store-shelf-scroll-wrapper"
+      :top="0"
+      @onScroll="onscroll">
         <shelf-search></shelf-search>
+        <shelf-list></shelf-list>
       </scroll>
     </div>
 </template>
@@ -13,15 +16,20 @@
   import Scroll from '../../components/common/Scroll'
   import ShelfSearch from '../../components/shelf/ShelfSearch'
   import { shelf } from '../../api/store'
+  import ShelfList from '../../components/shelf/ShelfList'
 
   export default {
      mixins: [storeShelfMixin],
      components: {
       ShelfTitle,
        Scroll,
-       ShelfSearch
+       ShelfSearch,
+       ShelfList
   },
     methods: {
+      onscroll(offsetY) {
+        this.setOffsetY(offsetY)
+      },
        getShelfList() {
         shelf().then(response => {
           if (response.status === 200 && response.data && response.data.bookList) {
