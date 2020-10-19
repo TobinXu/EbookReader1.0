@@ -98,6 +98,14 @@ export function saveFontFamily(fileName, fontFamily) {
   setBookObject(fileName, 'fontFamily', fontFamily)
 }
 
+export function setBookShelf (shelf) {
+  return setLocalStorage('shelf', shelf)
+}
+
+export function getBookShelf () {
+  return getLocalStorage('shelf')
+}
+
 export function getTheme(fileName) {
   return getBookObject(fileName, 'theme')
 }

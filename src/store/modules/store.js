@@ -4,7 +4,7 @@ const store = {
     flapCardVisible: false,
     isEditMode: false, // 是否进入编辑模式
     shelfList: [], // 书架图书列表
-    shelfSelected: [1, 2, 3], // 书架图书选中的列表
+    shelfSelected: [], // 书架图书选中的列表
     shelfTitleVisible: true // 书架标题的显示状态
   },
   mutations: {
@@ -21,7 +21,7 @@ const store = {
       state.shelfList = list
     },
     SET_SHELF_SELECTED(state, selected) {
-      state.selected = selected
+      state.shelfSelected = selected
     },
     SET_SHELF_TITLE_VISIBLE(state, visible) {
       state.shelfTitleVisible = visible
