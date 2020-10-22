@@ -24,6 +24,7 @@
     getLocation
   } from '../../utils/localStorage'
   import { addCss, flatten } from '../../utils/book'
+  import { getLocalForage } from '../../utils/localForage'
 
   global.ePub = Epub
   export default {
@@ -215,9 +216,7 @@
           this.setNavigation(navItem)
         })
       },
-      initEpub () {
-        const url = process.env.VUE_APP_RES_URL + '/epub/' +
-          this.fileName + '.epub'
+      initEpub (url) {
         this.book = new Epub(url)
         this.setCurrentBook(this.book)
         this.initRendition()
@@ -258,9 +257,22 @@
       }
     },
     mounted() {
-      this.setFileName(this.$route.params.fileName.split('|').join('/'))
-        .then(() => {
-          this.initEpub()
+      const books = this.$route.params.fileName.split('|')
+      const fileName = books[1]
+      getLocalForage(fileName, (err, blob) => {
+        if (!err && blob) {
+          console.log('找到离线缓存电子书')
+          this.setFileName(books.join('/')).then(() => {
+            this.initEpub(blob)
+          })
+        } else {
+          console.log('在线获取电子书')
+          this.setFileName(books.join('/')).then(() => {
+              const url = process.env.VUE_APP_RES_URL + '/epub/' +
+                this.fileName + '.epub'
+              this.initEpub(url)
+            })
+        }
       })
     }
   }

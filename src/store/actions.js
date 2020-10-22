@@ -5,11 +5,11 @@ const actions = {
   setDefaultFontFamily: ({ commit }, font) => {
     return commit('SET_DEFAULT_FONT_FAMILY', font)
   },
-  setDefaultFontSize: ({ commit }, FontSize) => {
-    return commit('SET_DEFAULT_FONT_SIZE', FontSize)
+  setDefaultFontSize: ({ commit }, fontSize) => {
+    return commit('SET_DEFAULT_FONT_SIZE', fontSize)
   },
-  setSettingVisible: ({ commit }, settingVisible) => {
-    return commit('SET_SETTING_VISIBLE', settingVisible)
+  setSettingVisible: ({ commit }, visible) => {
+    return commit('SET_SETTING_VISIBLE', visible)
   },
   setMenuVisible: ({ commit }, visible) => {
     return commit('SET_MENU_VISIBLE', visible)
@@ -32,8 +32,8 @@ const actions = {
   setIsPaginating: ({ commit }, isPaginating) => {
     return commit('SET_IS_PAGINATING', isPaginating)
   },
-  setCurrentBook: ({ commit }, currentBook) => {
-    return commit('SET_CURRENT_BOOK', currentBook)
+  setCurrentBook: ({ commit }, book) => {
+    return commit('SET_CURRENT_BOOK', book)
   },
   setNavigation: ({ commit }, navigation) => {
     return commit('SET_NAVIGATION', navigation)
@@ -59,8 +59,8 @@ const actions = {
   setHotSearchOffsetY({ commit }, offsetY) {
     return commit('SET_HOT_SEARCH_OFFSETY', offsetY)
   },
-  setFlapCardVisible({ commit }, visible) {
-    return commit('SET_FLAP_CARD_VISIBLE', visible)
+  setFlapCardVisible({ commit }, flapCardVisible) {
+    return commit('SET_FLAP_CARD_VISIBLE', flapCardVisible)
   },
   setIsEditMode({ commit }, isEditMode) {
     return commit('SET_IS_EDIT_MODE', isEditMode)
@@ -73,6 +73,12 @@ const actions = {
   },
   setShelfTitleVisible({ commit }, visible) {
     return commit('SET_SHELF_TITLE_VISIBLE', visible)
+  },
+  setShelfCategory({ commit }, category) {
+    return commit('SET_SHELF_CATEGORY', category)
+  },
+  setCurrentType({ commit }, type) {
+    return commit('SET_CURRENT_TYPE', type)
   }
 }
 

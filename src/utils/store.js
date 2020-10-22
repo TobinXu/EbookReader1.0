@@ -1,3 +1,14 @@
+export function computeId(list) {
+  return list.map((book, index) => {
+    if (book.type !== 3) {
+      book.id = index + 1
+      if (book.itemList) {
+        book.itemList = computeId(book.itemList)
+      }
+    }
+    return book
+  })
+}
 export function gotoBookDetail(vue, book) {
   vue.$router.push({
     path: '/store/detail',
@@ -22,7 +33,7 @@ export function appendAddToShelf(list) {
   return list
 }
 
-export function removeAddToShelf(list) {
+export function removeAddFromShelf(list) {
   return list.filter(item => item.type !== 3)
 }
 
