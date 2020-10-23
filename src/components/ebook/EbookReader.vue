@@ -233,9 +233,11 @@
               const loc =item.match(/\[(.*)\]!/)[1]
               this.navigation.forEach(nav => {
                 if (nav.href) {
-                  const href = nav.href.match(/^(.*)\.html$/)[1]
-                  if (href === loc) {
-                    nav.pagelist.push(item)
+                  const href = nav.href.match(/^(.*)\.html$/)
+                  if (href) {
+                    if (href[1] === loc) {
+                      nav.pagelist.push(item)
+                    }
                   }
                 }
               })
@@ -261,14 +263,14 @@
       const fileName = books[1]
       getLocalForage(fileName, (err, blob) => {
         if (!err && blob) {
-          console.log('找到离线缓存电子书')
+          // console.log('找到离线缓存电子书')
           this.setFileName(books.join('/')).then(() => {
             this.initEpub(blob)
           })
         } else {
-          console.log('在线获取电子书')
+          // console.log('在线获取电子书')
           this.setFileName(books.join('/')).then(() => {
-              const url = process.env.VUE_APP_RES_URL + '/epub/' +
+              const url = process.env.VUE_APP_EPUB_URL + '/' +
                 this.fileName + '.epub'
               this.initEpub(url)
             })

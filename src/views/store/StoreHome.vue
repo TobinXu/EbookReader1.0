@@ -45,7 +45,7 @@ data() {
       return {
         scrollTop: 94,
         random: null,
-        banner: null,
+        banner: '',
         guessYouLike: null,
         recommend: null,
         featured: null,

@@ -1,8 +1,46 @@
 import axios from 'axios'
 import { setLocalForage } from '../utils/localForage'
 
-export function download(book, onSuccess, onError, onProgress) {
-  if (!onProgress) {
+export function flatList() {
+  return axios({
+    method: 'get',
+    url: `${process.env.VUE_APP_BOOK_URL}/book/flat-list`
+  })
+}
+
+export function shelf() {
+  return axios({
+    method: 'get',
+    url: `${process.env.VUE_APP_BASE_URL}/book/shelf`
+  })
+}
+
+export function home() {
+  return axios({
+    method: 'get',
+    url: `${process.env.VUE_APP_BASE_URL}/book/home`
+  })
+}
+
+export function detail(book) {
+  return axios({
+    method: 'get',
+    url: `${process.env.VUE_APP_BOOK_URL}/book/detail`,
+    params: {
+      fileName: book.fileName
+    }
+  })
+}
+
+export function list() {
+  return axios({
+    method: 'get',
+    url: `${process.env.VUE_APP_BASE_URL}/book/list`
+  })
+}
+
+export function download(book, onSucess, onError, onProgress) {
+  if (onProgress == null) {
     onProgress = onError
     onError = null
   }
@@ -17,43 +55,10 @@ export function download(book, onSuccess, onError, onProgress) {
   }).get(`${book.categoryText}/${book.fileName}.epub`)
     .then(res => {
       const blob = new Blob([res.data])
-      setLocalForage(book.fileName, blob, () => {
-        if (onSuccess) onSuccess(book)
-      }, err => {
-        if (onError) onError(err)
-      })
+      setLocalForage(book.fileName, blob,
+        () => onSucess(book),
+        err => onError(err))
     }).catch(err => {
       if (onError) onError(err)
     })
 }
-
-export function shelf() {
-  return axios({
-    url: `${process.env.VUE_APP_BASE_URL}/book/shelf`,
-    method: 'get'
-  })
-}
-
-export function home() {
-  return axios({
-    url: `${process.env.VUE_APP_BASE_URL}/book/home`,
-    method: 'get'
-  })
-}
-
-export function detail(book) {
-  return axios({
-    method: 'get',
-    url: `${process.env.VUE_APP_BASE_URL}/book/detail`,
-    params: {
-      fileName: book.fileName
-    }
-  })
-}
-
-export function list() {
-    return axios({
-      method: 'get',
-      url: `${process.env.VUE_APP_BASE_URL}/book/list`
-    })
-  }

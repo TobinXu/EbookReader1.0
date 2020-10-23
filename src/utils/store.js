@@ -1,14 +1,52 @@
-export function computeId(list) {
-  return list.map((book, index) => {
-    if (book.type !== 3) {
-      book.id = index + 1
-      if (book.itemList) {
-        book.itemList = computeId(book.itemList)
-      }
+import { getLocalStorage, saveBookShelf, getBookShelf } from './localStorage'
+
+export function removeFromBookShelf (book) {
+  return getBookShelf().filter(item => {
+    if (item.itemList) {
+      item.itemList = removeAddFromShelf(item.itemList)
     }
-    return book
+    return item.fileName !== book.fileName
   })
 }
+
+export function addToShelf (book) {
+  let shelfList = getBookShelf()
+  shelfList = removeAddFromShelf(shelfList)
+  book.type = 1
+  shelfList.push(book)
+  shelfList = computeId(shelfList)
+  shelfList = appendAddToShelf(shelfList)
+  saveBookShelf(shelfList)
+}
+
+export function flatBookList(bookList) {
+  if (bookList) {
+    let orgBookList = bookList.filter(item => {
+      return item.type !== 3
+    })
+    const categoryList = bookList.filter(item => {
+      return item.type === 2
+    })
+    categoryList.forEach(item => {
+      const index = orgBookList.findIndex(v => {
+        return v.id === item.id
+      })
+      if (item.itemList) {
+        item.itemList.forEach(subItem => {
+          orgBookList.splice(index, 0, subItem)
+        })
+      }
+    })
+    orgBookList.forEach((item, index) => {
+      item.id = index + 1
+    })
+    orgBookList = orgBookList.filter(item => item.type !== 2)
+    return orgBookList
+  } else {
+    return []
+  }
+}
+
 export function gotoBookDetail(vue, book) {
   vue.$router.push({
     path: '/store/detail',
@@ -19,9 +57,31 @@ export function gotoBookDetail(vue, book) {
   })
 }
 
-export function gotoStoreHome (vue) {
-  vue.$router.push({
-    path: '/store/home'
+export function findBook(fileName) {
+  const bookList = getLocalStorage('shelf')
+  return flatBookList(bookList).find(item => item.fileName === fileName)
+}
+
+export function computeId(list) {
+  return list.map((book, index) => {
+    book.id = index + 1
+    if (book.itemList) {
+      book.itemList = computeId(book.itemList)
+    }
+    return book
+  })
+}
+
+export function filterSelectedBook(list) {
+  return list.filter(book => {
+    if (book.selected) {
+      return false
+    } else {
+      if (book.itemList) {
+        book.itemList = filterSelectedBook(book.itemList)
+      }
+      return true
+    }
   })
 }
 
@@ -35,6 +95,12 @@ export function appendAddToShelf(list) {
 
 export function removeAddFromShelf(list) {
   return list.filter(item => item.type !== 3)
+}
+
+export function gotoStoreHome(vue) {
+  vue.$router.push({
+    path: '/store/home'
+  })
 }
 
 export function showBookDetail(vue, book) {
@@ -71,6 +137,7 @@ export const categoryList = {
   Psychology: 21,
   Statistics: 22
 }
+
 export const flapCardList = [
   {
     r: 255,

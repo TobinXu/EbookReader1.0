@@ -8,7 +8,7 @@ import './assets/styles/global.scss'
 import VueLazyLoad from 'vue-lazyload'
 import './utils/boost'
 import './utils/create-api'
-require('./mock/index.js')
+// require('./mock/index.js')
 
 Vue.config.productionTip = false
 Vue.use(VueLazyLoad)
