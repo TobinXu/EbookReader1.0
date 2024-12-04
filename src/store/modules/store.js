@@ -34,7 +34,50 @@ const store = {
     SET_CURRENT_TYPE(state, type) {
       state.currentType = type
     }
+  },
+  getters: {
+    hotSearchOffsetY: state => state.store.hotSearchOffsetY,
+    hotSearchOffsetY: state => state.store.hotSearchOffsetY,
+    flapCardVisible: state => state.store.flapCardVisible,
+    isEditMode: state => state.store.isEditMode,
+    shelfList: state => state.store.shelfList,
+    shelfSelected: state => state.store.shelfSelected,
+    shelfTitleVisible: state => state.store.shelfTitleVisible,
+    shelfCategory: state => state.store.shelfCategory,
+    currentType: state => state.store.currentType
+  },
+  actions: {
+    setFlapCardVisible({ commit }, flapCardVisible) {
+      return commit('SET_FLAP_CARD_VISIBLE', flapCardVisible)
+    },
+    setHotSearchOffsetY({ commit }, offsetY) {
+      return commit('SET_HOT_SEARCH_OFFSETY', offsetY)
+    },
+    setIsEditMode({ commit }, isEditMode) {
+      return commit('SET_IS_EDIT_MODE', isEditMode)
+    },
+    setShelfList({ commit }, list) {
+      return commit('SET_SHELF_LIST', list)
+    },
+    setShelfSelected({ commit }, selected) {
+      return commit('SET_SHELF_SELECTED', selected)
+    },
+    setShelfTitleVisible({ commit }, visible) {
+      return commit('SET_SHELF_TITLE_VISIBLE', visible)
+    },
+    setShelfCategory({ commit }, category) {
+      return commit('SET_SHELF_CATEGORY', category)
+    },
+    setCurrentType({ commit }, type) {
+      return commit('SET_CURRENT_TYPE', type)
+    },
   }
 }
 
-export default store
+export default {
+  namespaced: true,
+  state: store.state,
+  mutations: store.mutations,
+  getters: store.getters,
+  actions: store.actions
+}
